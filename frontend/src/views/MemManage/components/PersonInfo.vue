@@ -73,7 +73,9 @@ const navigateToDataV = () => {
         <UglyAvatar></UglyAvatar>
       </div>
       <div class="per-info m-t-12 fs-20">
-        {{ personInfo.name }}
+        <div>{{ personInfo.name }}</div>
+        <div>性别: {{ personInfo.sex }}</div>
+        <div>关系: {{ personInfo.relation }}</div>
       </div>
     </div>
     <div class="per-content f-c h-full" v-else @click="dialogVisible = true">
@@ -116,6 +118,8 @@ const navigateToDataV = () => {
       0 0 25px 0 rgba(39, 186, 155, 0.5);
   }
   .per-avatar {
+    width: 70%; /* 缩小头像区域宽度 */
+    margin: 0 auto; /* 居中对齐 */
     &::before {
       content: '';
       display: block;
@@ -128,6 +132,36 @@ const navigateToDataV = () => {
       right: 0;
       bottom: 0;
     }
+  }
+}
+
+.per-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%; /* 确保内容占据整个容器高度 */
+  padding: 10px;
+}
+
+.per-info {
+  text-align: center;
+  font-size: 14px; /* 调整字体大小以适应内容 */
+  line-height: 1.5; /* 增加行高以改善可读性 */
+  color: #333;
+}
+
+.m-t-12 {
+  margin-top: 12px;
+}
+
+.fs-20 {
+  font-size: 20px;
+}
+
+:deep(.el-card__body) {
+  .content {
+    overflow-y: auto !important; /* 允许垂直滚动 */
   }
 }
 </style>

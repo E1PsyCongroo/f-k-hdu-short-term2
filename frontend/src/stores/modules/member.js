@@ -24,6 +24,7 @@ export const useMemberStore = defineStore('member', () => {
     if (res.status === 200) {
       await initMembers()
       ElMessage.success('新增用户成功')
+      await familyStore.updateFamilyInfo()
     }
   }
 

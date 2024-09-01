@@ -176,7 +176,7 @@ exports.getCategory = (req,res) => {
 
 exports.addConsume = (req,res) => {
     const sqlStr = 'insert into consume set ?';
-    //console.log(req.body);
+    console.log(req.body);
     const consumeData = {
         member_id: req.body.member_id,
         amount: req.body.amount,

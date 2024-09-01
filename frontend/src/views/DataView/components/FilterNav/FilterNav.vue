@@ -4,7 +4,7 @@ import { ref, onMounted } from 'vue'
 
 const memberStore = useMemberStore()
 const members = memberStore.members.map((item) => {
-  return { value: item.name, label: item.name, id: item.memId }
+  return { value: item.name, label: item.name, id: item.member_id }
 })
 onMounted(() => {})
 

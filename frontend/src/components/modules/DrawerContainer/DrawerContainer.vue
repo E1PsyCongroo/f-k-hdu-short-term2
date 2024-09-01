@@ -11,7 +11,7 @@ const memOptions = memberStore.members.map((item) => {
   return {
     value: item.name,
     label: item.name,
-    id: item.memId
+    id: item.member_id
   }
 })
 const tagOptions = ref(
@@ -99,7 +99,7 @@ const isDifferent = () => {
 }
 const submitForm = () => {
   form.value.consumeDate = formatDate(form.value.consumeDate)
-  // console.log('form', form.value)
+  console.log('form', form.value)
   if (!isDifferent()) {
     ElNotification({
       message: '请填写完整信息',
@@ -111,7 +111,7 @@ const submitForm = () => {
   const { memberName, ...rest } = form.value
   const subForm = {
     ...rest,
-    memId: memOptions.find((mem) => mem.label === memberName)?.id || null
+    member_id: memOptions.find((mem) => mem.label === memberName)?.id || null
   }
   if (props.type === 'add') {
     consumeStore.addConsume(subForm)

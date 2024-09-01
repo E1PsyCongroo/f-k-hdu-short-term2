@@ -19,8 +19,17 @@ export const useFamilyStore = defineStore('family', () => {
     }
   }
 
+  const updateFamilyInfo = async () => {
+    const res = await getFamilyAPI({ member_id: userStore.userInfo.member_id})
+    console.log(res)
+    if (res.status === 200) {
+      family.value = res.data
+    }
+  }
+
   return {
     family,
     initFamily,
+    updateFamilyInfo
   }
 })
