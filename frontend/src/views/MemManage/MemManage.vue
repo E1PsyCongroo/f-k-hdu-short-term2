@@ -15,7 +15,8 @@ onMounted(() => {
   <div class="member-container h-full">
     <div class="family-info mb-4">
       <h2>
-        {{ familyStore.family.family_name }} - 家庭人数: {{ familyStore.family.num }}
+        {{ familyStore.family.family_name }} - 家庭人数:
+        {{ familyStore.family.num }}
       </h2>
     </div>
     <CardContainer class="h-full">

@@ -2,7 +2,9 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { loginAPI } from '@/api/user.js'
 
-export const useUserStore = defineStore('user', () => {
+export const useUserStore = defineStore(
+  'user',
+  () => {
     // state
     const userInfo = ref({})
     // actions
@@ -24,7 +26,7 @@ export const useUserStore = defineStore('user', () => {
     return {
       userInfo,
       getUserInfo,
-      clearUserInfo,
+      clearUserInfo
     }
   },
   // 本地持久化
