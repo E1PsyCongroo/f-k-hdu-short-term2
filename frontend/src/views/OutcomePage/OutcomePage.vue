@@ -1,13 +1,14 @@
 <script setup>
 import CardContainer from '@/components/modules/CardContainer/CardContainer.vue'
 import { useOutcomeData } from './composables/config'
-import { useConsumeStore } from '@/stores'
+import { useConsumeStore, useFamilyStore } from '@/stores'
 import { onMounted, ref, watch } from 'vue'
 import { getFilterOutcomeAPI } from '@/api/consume'
 
 const { memOptions, tagOptions } = useOutcomeData()
 
 const consumeStore = useConsumeStore()
+const familyStore = useFamilyStore()
 
 const filterData = ref(consumeStore.outcomeList)
 const filterFlag = ref(false)
@@ -47,6 +48,7 @@ const handleEdit = (row) => {
 }
 
 const handleFilter = async (info) => {
+  info.family_id = familyStore.family.family_id
   const res = await getFilterOutcomeAPI(info)
   filterData.value = res.data
   filterFlag.value = true

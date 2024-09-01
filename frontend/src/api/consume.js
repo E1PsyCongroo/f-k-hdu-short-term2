@@ -4,40 +4,44 @@ import instance from '@/utils/instance'
  * @description 获取消费记录接口
  */
 
-export const getConsumeAPI = () => {
+export const getConsumeAPI = ({ family_id }) => {
   return instance({
     url: '/consumes',
-    method: 'get'
+    method: 'get',
+    params: { family_id: family_id }
   })
 }
 
 /**
  * @description 获取收入记录接口
  */
-export const getIncomeAPI = () => {
+export const getIncomeAPI = ({ family_id }) => {
   return instance({
     url: '/consumes/income',
-    method: 'get'
+    method: 'get',
+    params: { family_id: family_id }
   })
 }
 
 /**
  * @description 获取支出记录接口
  */
-export const getOutcomeAPI = () => {
+export const getOutcomeAPI = ({ family_id }) => {
   return instance({
     url: '/consumes/outcome',
-    method: 'get'
+    method: 'get',
+    params: { family_id: family_id }
   })
 }
 
 /**
  * @description 获取 tags
  */
-export const getAllTagsAPI = () => {
+export const getAllTagsAPI = ({ family_id }) => {
   return instance({
     url: '/consumes/category',
-    method: 'get'
+    method: 'get',
+    params: { family_id: family_id }
   })
 }
 

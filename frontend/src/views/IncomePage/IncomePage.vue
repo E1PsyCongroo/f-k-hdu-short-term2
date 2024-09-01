@@ -1,13 +1,14 @@
 <script setup>
 import CardContainer from '@/components/modules/CardContainer/CardContainer.vue'
 import { useIncomeData } from './composables/config'
-import { useConsumeStore } from '@/stores'
+import { useConsumeStore, useFamilyStore } from '@/stores'
 import { onMounted, ref, watch } from 'vue'
 import { getFilterIncomeAPI } from '@/api/consume'
 
 const { memOptions, tagOptions } = useIncomeData()
 
 const consumeStore = useConsumeStore()
+const familyStore = useFamilyStore()
 
 const filterData = ref(consumeStore.incomeList)
 const filterFlag = ref(false)
@@ -46,6 +47,7 @@ const handleEdit = (row) => {
 }
 
 const handleFilter = async (info) => {
+  info.family_id = familyStore.family.family_id
   const res = await getFilterIncomeAPI(info)
   filterData.value = res.data
   filterFlag.value = true
