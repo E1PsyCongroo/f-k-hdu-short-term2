@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const routerHandler = require('../router_handler/member.js');
 
+//查询用户所处家庭
+router.get('/family', routerHandler.getFamily)
 
 //查询所有成员
 router.get('/members',routerHandler.getMembers);

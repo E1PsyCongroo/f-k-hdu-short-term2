@@ -1,11 +1,13 @@
 <script setup>
 import PersonInfo from './components/PersonInfo.vue'
-import { useMemberStore } from '@/stores'
+import { useMemberStore, useFamilyStore } from '@/stores'
 import { onMounted } from 'vue'
 
 const memberStore = useMemberStore()
+const familyStore = useFamilyStore()
 onMounted(() => {
   memberStore.initMembers()
+  familyStore.initFamily()
 })
 </script>
 
@@ -16,7 +18,7 @@ onMounted(() => {
         <div
           class="per-box w-22% m-r-3% m-b-1.5% relative"
           v-for="person in memberStore.members"
-          :key="person.memId"
+          :key="person.member_id"
         >
           <PersonInfo :person-info="person" />
         </div>

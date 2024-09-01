@@ -1,9 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-export const useGlobalStore = defineStore(
-  'global',
-  () => {
+export const useGlobalStore = defineStore('global', () => {
     const isDark = ref(JSON.parse(localStorage.getItem('isDark')) || false)
     const setDark = (flag) => {
       isDark.value = flag

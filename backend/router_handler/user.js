@@ -6,7 +6,7 @@ const config = require('../config.js');
 
 exports.login = (req, res) => {
     const userInfo = req.body;
-    const sqlStr = 'select * from users where username = ?';
+    const sqlStr = 'select * from user where username = ?';
     db.query(sqlStr, [userInfo.username], (error, results) => {
         if (error) {
             return res.cc(error,500);
@@ -31,6 +31,7 @@ exports.login = (req, res) => {
             data: {
                 token: tokenStr,
                 username: userInfo.username,
+                member_id: user.member_id,
                 avatar: userInfo.avatar || ''
             }
         });

@@ -1,6 +1,6 @@
 <script setup>
 import { Plus } from '@element-plus/icons-vue'
-import { useMemberStore } from '@/stores'
+import { useMemberStore, useFamilyStore } from '@/stores'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -12,15 +12,37 @@ const props = defineProps({
 })
 
 const memberStore = useMemberStore()
+const familyStore = useFamilyStore()
 const dialogVisible = ref(false)
 const form = ref({
   name: '',
-  sex: '男'
+  relation: '',
+  sex: '男',
 })
 const rules = {
   name: [
     { required: true, message: '请输入姓名', trigger: 'blur' },
     { min: 2, max: 5, message: '长度在 2 到 5 个字符', trigger: 'blur' }
+  ],
+  relation: [
+    { required: true, message: '请输入与户主的关系', trigger: 'blur' },
+    { validator: (rule, value, callback) => {
+      if (value === '户主') {
+        callback(new Error('关系不能为“户主”'))
+      } else {
+        callback()
+      }
+    }, trigger: 'blur' }
+  ],
+  sex: [
+    { required: true, message: '请选择性别', trigger: 'change' },
+    { validator: (rule, value, callback) => {
+      if (value !== '男' && value !== '女') {
+        callback(new Error('性别只能为“男”或“女”'));
+      } else {
+        callback();
+      }
+    }, trigger: 'change' }
   ]
 }
 const formRef = ref(null)
@@ -28,6 +50,7 @@ const dialogConfirm = () => {
   formRef.value.validate(async (valid) => {
     if (valid) {
       // console.log(form.value)
+      form.value.family_id = familyStore.family.family_id
       memberStore.addMember(form.value)
       dialogVisible.value = false
     }
@@ -35,7 +58,7 @@ const dialogConfirm = () => {
 }
 const router = useRouter()
 const navigateToDataV = () => {
-  router.push(`/data-view?id=${props.personInfo.memId}`)
+  router.push(`/data-view?id=${props.personInfo.member_id}`)
 }
 </script>
 
@@ -64,11 +87,14 @@ const navigateToDataV = () => {
       <el-form-item label="姓名" prop="name">
         <el-input v-model="form.name" placeholder="请输入姓名"></el-input>
       </el-form-item>
-      <el-form-item label="性别">
+      <el-form-item label="性别" prop="sex">
         <el-radio-group v-model="form.sex">
           <el-radio value="男">男</el-radio>
           <el-radio value="女">女</el-radio>
         </el-radio-group>
+      </el-form-item>
+      <el-form-item label="关系" prop="relation">
+        <el-input v-model="form.relation" placeholder="请输入和户主的关系"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="dialogVisible = false">取消</el-button>

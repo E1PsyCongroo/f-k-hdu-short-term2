@@ -2,19 +2,19 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { loginAPI } from '@/api/user.js'
 
-export const useUserStore = defineStore(
-  'user',
-  () => {
+export const useUserStore = defineStore('user', () => {
     // state
     const userInfo = ref({})
     // actions
+
     const getUserInfo = async ({ username, password }) => {
-      const res = await loginAPI({ username, password })
-      console.log(res)
-      if (res.status === 200) {
-        userInfo.value = res.data
+      // 登录获取用户信息
+      const userRes = await loginAPI({ username, password })
+      console.log(userRes)
+      if (userRes.status === 200) {
+        userInfo.value = userRes.data
       }
-      return res
+      return userRes
     }
 
     const clearUserInfo = () => {
@@ -24,7 +24,7 @@ export const useUserStore = defineStore(
     return {
       userInfo,
       getUserInfo,
-      clearUserInfo
+      clearUserInfo,
     }
   },
   // 本地持久化

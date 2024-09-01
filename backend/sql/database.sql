@@ -1,1 +1,2 @@
-CREATE DATABASE IF NOT EXISTS financial;
+DROP DATABASE financial;
+CREATE DATABASE financial;

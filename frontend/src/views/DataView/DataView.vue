@@ -41,9 +41,9 @@ const handleFilter = (info) => {
 
 <template>
   <div class="data-v-container wh-full fd-col">
-    <div class="filter-container">
+    <!-- <div class="filter-container">
       <FilterNav @reset="handleReset" @filter="handleFilter"></FilterNav>
-    </div>
+    </div> -->
     <div class="data-v-content f-s flex-wrap mt-15">
       <CardContainer class="chart-card">
         <PieChart :mem-id="memId" :date="date" :type="type"></PieChart>
