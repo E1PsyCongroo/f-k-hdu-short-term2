@@ -3,7 +3,7 @@ const db = require('../db/index.js');
 exports.getFamily = (req, res) => {
     console.log(req.query)
     const userInfo = req.query;
-    const sqlStr = 'SELECT * from family WHERE family_id = (SELECT family_id from member WHERE member_id = 1)';
+    const sqlStr = 'SELECT * from family WHERE family_id = (SELECT family_id from member WHERE member_id = ?)';
     db.query(sqlStr, [userInfo.member_id], (error, results) => {
         if (error)
             return res.cc(error, 500);

@@ -56,16 +56,22 @@ const rules = {
 const formRef = ref(null)
 
 const handleEditClick = () => {
+  dialogVisible.value = true
   if (props.personInfo) {
-    form.value = {
-      name: props.personInfo.name,
-      relation: props.personInfo.relation,
-      sex: props.personInfo.sex
+    if (props.personInfo.relation === '户主') {
+      ElMessage.warning('户主信息不可更改')
+      dialogVisible.value = false
+    }
+    else {
+      form.value = {
+        name: props.personInfo.name,
+        relation: props.personInfo.relation,
+        sex: props.personInfo.sex
+      }
     }
   } else {
     form.value = { name: '', relation: '', sex: '男' }
   }
-  dialogVisible.value = true
 }
 
 const dialogConfirm = () => {

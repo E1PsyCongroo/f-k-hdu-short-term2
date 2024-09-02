@@ -1,21 +1,23 @@
 <script setup>
-import { useMemberStore, useUserStore } from '@/stores'
-import { ref, onMounted } from 'vue'
+import { useMemberStore } from '@/stores'
+import { ref, onMounted, watchEffect } from 'vue'
 
-const userStore = useUserStore()
 const memberStore = useMemberStore()
-const members = memberStore.members.map((item) => {
-  return { value: item.name, label: item.name, id: item.member_id }
-})
+const members = ref([])
 onMounted(() => {})
+watchEffect(() => {
+  members.value = memberStore.members.map((item) => {
+    return { value: item.name, label: item.name, id: item.member_id }
+  })
+})
 
-const member_id = ref(userStore.userInfo.member_id)
+const member_id = ref('')
 const date = ref('')
 const type = ref('all')
 
 const emits = defineEmits(['filter', 'reset'])
 const resetHandle = () => {
-  member_id.value = userStore.userInfo.member_id
+  member_id.value = ''
   date.value = ''
   type.value = 'all'
   emits('reset')

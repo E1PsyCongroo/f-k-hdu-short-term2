@@ -1,11 +1,12 @@
 <script setup>
 import * as echarts from 'echarts'
-import { onMounted, watch, ref } from 'vue'
+import { onMounted, watch, watchEffect, ref } from 'vue'
 import { usePieConfig } from '../../composables/usePieConfig'
-import { useGlobalStore, useConsumeStore} from '@/stores';
+import { useGlobalStore, useMemberStore, useConsumeStore} from '@/stores';
 
 const globalStore = useGlobalStore()
 const consumeStore = useConsumeStore()
+const memberStore = useMemberStore()
 
 const props = defineProps({
   member_id: {
@@ -27,9 +28,6 @@ let myChart = null
 async function updateChart() {
   console.log(props)
   if (!myChart) return
-  if (consumeStore.consumeList.length === 0) await consumeStore.getConsumeData()
-  if (consumeStore.outcomeList.length === 0) await consumeStore.getOutcomeData()
-  if (consumeStore.incomeList.length === 0) await consumeStore.getIncomeData()
   const { optionPost: newOption } = usePieConfig(
     props.member_id,
     props.date,
@@ -40,7 +38,10 @@ async function updateChart() {
 }
 
 const optionPost = ref(null)
-onMounted(() => {
+onMounted(async () => {
+  if (consumeStore.consumeList.length === 0) await consumeStore.getConsumeData()
+  if (consumeStore.outcomeList.length === 0) await consumeStore.getOutcomeData()
+  if (consumeStore.incomeList.length === 0) await consumeStore.getIncomeData()
   const chartDom = document.getElementById('pie-main')
   if (chartDom) {
     // myChart = echarts.init(chartDom, 'dark')
