@@ -2,30 +2,31 @@ import { useConsumeStore, useMemberStore } from '@/stores'
 const consumeStore = useConsumeStore()
 const memberStore = useMemberStore()
 
-export const usePieConfig = (memId, date, type) => {
-  consumeStore.getConsumeData()
-  if (consumeStore.consumeList.length === 0) consumeStore.getConsumeData()
-  if (consumeStore.outcomeList.length === 0) consumeStore.getOutcomeData()
-  if (consumeStore.incomeList.length === 0) consumeStore.getIncomeData()
-  let name = ''
-  if (memId !== 0 && memId !== '') {
-    name = memberStore.members.find((item) => item.memId === memId)?.name
+export const usePieConfig = (member_id, date, type) => {
+  let name = '';
+  let dataList = [];
+  if (member_id && member_id !== 0) {
+    const member = memberStore.members.find((item) => item.member_id === member_id);
+    console.log(memberStore.members)
+    console.log(member)
+    name = member ? member.name : '';
+  } else {
+    name = '';
   }
-  let dataList
 
   if (type === 'income') {
-    dataList = consumeStore.incomeList
+    dataList = consumeStore.incomeList;
   } else if (type === 'outcome') {
-    dataList = consumeStore.outcomeList
+    dataList = consumeStore.outcomeList;
   } else {
-    dataList = consumeStore.consumeList
+    dataList = consumeStore.consumeList;
   }
 
   // 处理数据的函数
   const processData = (list) => {
     const result = list.reduce((acc, item) => {
-      // 检查 memId 和 date 是否匹配
-      const isMemIdMatch = item.memId === memId || memId === '' || memId === 0
+      // 检查 member_id 和 date 是否匹配
+      const isMemIdMatch = item.member_id === member_id || member_id === '' || member_id === 0
       const isDateMatch = date === '' || item.consumeDate.slice(0, 7) === date
 
       if (isMemIdMatch && isDateMatch) {
@@ -44,6 +45,7 @@ export const usePieConfig = (memId, date, type) => {
 
   // 获取去重后的数据
   const uniqueDataPost = processData(dataList)
+  console.log({name, uniqueDataPost})
 
   const optionPost = {
     title: {
@@ -87,7 +89,6 @@ export const usePieConfig = (memId, date, type) => {
         data: uniqueDataPost
       }
     ]
-    // darkMode: true
   }
 
   return { optionPost }

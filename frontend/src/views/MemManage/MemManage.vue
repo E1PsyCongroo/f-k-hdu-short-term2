@@ -5,10 +5,7 @@ import { onMounted } from 'vue'
 
 const memberStore = useMemberStore()
 const familyStore = useFamilyStore()
-onMounted(() => {
-  memberStore.initMembers()
-  familyStore.initFamily()
-})
+onMounted(() => {})
 </script>
 
 <template>

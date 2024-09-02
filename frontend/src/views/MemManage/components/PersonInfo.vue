@@ -64,7 +64,8 @@ const dialogConfirm = () => {
 }
 const router = useRouter()
 const navigateToDataV = () => {
-  router.push(`/data-view?id=${props.personInfo.member_id}`)
+  // TODO
+  // router.push(`/data-view?id=${props.personInfo.member_id}`)
 }
 </script>
 

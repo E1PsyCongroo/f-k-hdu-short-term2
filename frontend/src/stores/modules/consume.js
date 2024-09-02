@@ -24,7 +24,6 @@ export const useConsumeStore = defineStore('consume', () => {
     console.log(res)
     consumeList.value = res.data
   }
-  getConsumeData()
   // 获取收入
   const getIncomeData = async () => {
     const res = await getIncomeAPI({ family_id: familyStore.family.family_id })

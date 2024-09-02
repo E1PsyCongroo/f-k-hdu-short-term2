@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useUserStore } from '@/stores'
+import { useUserStore, useFamilyStore } from '@/stores'
 import Vcode from 'vue3-puzzle-vcode'
 // import imgs from '../composables/getRandomImgs'
 // import { getRandomPic } from '@/api/global'
@@ -12,6 +12,7 @@ import Vcode from 'vue3-puzzle-vcode'
 //   imgs = res.data
 // })
 const userStore = useUserStore()
+const familyStore = useFamilyStore()
 const form = ref({
   account: '',
   password: ''
@@ -56,6 +57,7 @@ const proceedToLogin = async () => {
     const { account, password } = form.value
     // 登录操作
     const res = await userStore.getUserInfo({ username: account, password })
+    await familyStore.initFamily()
     if (res.status === 200) {
       ElMessage.success('登录成功')
       router.replace('/')

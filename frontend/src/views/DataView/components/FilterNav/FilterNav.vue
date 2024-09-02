@@ -8,13 +8,13 @@ const members = memberStore.members.map((item) => {
 })
 onMounted(() => {})
 
-const memVal = ref('')
+const member_id = ref('')
 const date = ref('')
 const type = ref('all')
 
 const emits = defineEmits(['filter', 'reset'])
 const resetHandle = () => {
-  memVal.value = ''
+  member_id.value = ''
   date.value = ''
   type.value = 'all'
   emits('reset')
@@ -30,7 +30,7 @@ const filterHandle = () => {
     }).format(selDate)
   }
   emits('filter', {
-    memVal: memVal.value,
+    member_id: member_id.value,
     date: formattedDate,
     type: type.value
   })
@@ -42,7 +42,7 @@ const filterHandle = () => {
     <div class="filter-content f-b w-80%">
       <div class="income-box f-b w-full">
         <div class="mem-sel w-30%">
-          <el-select v-model="memVal" placeholder="请选择用户名">
+          <el-select v-model="member_id" placeholder="请选择用户名">
             <el-option
               v-for="item in members"
               :key="item.value"

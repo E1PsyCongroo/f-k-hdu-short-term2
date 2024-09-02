@@ -2,18 +2,20 @@
 import LayoutAside from './components/LayoutAside.vue'
 import LayoutNav from './components/LayoutNav.vue'
 import SubNav from './components/SubNav.vue'
-import { useGlobalStore, useMemberStore, useFamilyStore, useConsumeStore } from '@/stores'
+import { useGlobalStore, useMemberStore, useConsumeStore, useFamilyStore } from '@/stores'
 import { onMounted, ref } from 'vue'
 
 const globalStore = useGlobalStore()
 const memberStore = useMemberStore()
 const familyStore = useFamilyStore()
 const consumeStore = useConsumeStore()
-onMounted(() => {
+onMounted(async () => {
   memberStore.initMembers()
-  familyStore.initFamily()
+  await familyStore.initFamily()
   consumeStore.getTags()
   consumeStore.getConsumeData()
+  consumeStore.getIncomeData()
+  consumeStore.getOutcomeData()
 })
 
 const flag = ref(false)

@@ -10,18 +10,26 @@ import SankeyDiagram from './components/SankeyDiagram/SankeyDiagram.vue'
 import ScatterPlot from './components/ScatterPlot/ScatterPlot.vue'
 import StackedBar from './components/StackedBar/StackedBar.vue'
 import FilterNav from './components/FilterNav/FilterNav.vue'
-import { ref } from 'vue'
+import { useConsumeStore, useUserStore } from '@/stores'
+import { ref, onMounted } from 'vue'
 
+const userStore = useUserStore()
+const consumeStore = useConsumeStore()
+onMounted(() => {
+  if (consumeStore.consumeList.length === 0) consumeStore.getConsumeData()
+  if (consumeStore.outcomeList.length === 0) consumeStore.getOutcomeData()
+  if (consumeStore.incomeList.length === 0) consumeStore.getIncomeData()
+})
 const route = useRoute()
 console.log(route.query.id)
 
-const memId = ref(route.query.id || 0)
+const member_id = ref(route.query.id || userStore.userInfo.member_id)
 const date = ref('')
 const type = ref('all')
 
 const handleReset = () => {
   // 重置
-  memId.value = 0
+  member_id.value = userStore.userInfo.member_id
   date.value = ''
   type.value = 'all'
   ElNotification({
@@ -32,8 +40,8 @@ const handleReset = () => {
 }
 
 const handleFilter = (info) => {
-  // console.log(info)
-  memId.value = info.memVal
+  console.log(info)
+  member_id.value = info.member_id
   date.value = info.date
   type.value = info.type
 }
@@ -41,41 +49,41 @@ const handleFilter = (info) => {
 
 <template>
   <div class="data-v-container wh-full fd-col">
-    <!-- <div class="filter-container">
+    <div class="filter-container">
       <FilterNav @reset="handleReset" @filter="handleFilter"></FilterNav>
-    </div> -->
+    </div>
     <div class="data-v-content f-s flex-wrap mt-15">
       <CardContainer class="chart-card">
-        <PieChart :mem-id="memId" :date="date" :type="type"></PieChart>
+        <PieChart :member_id="member_id" :date="date" :type="type"></PieChart>
+      </CardContainer>
+      <!-- <CardContainer class="chart-card">
+        <BarChart :member_id="member_id" :date="date" :type="type"></BarChart>
       </CardContainer>
       <CardContainer class="chart-card">
-        <BarChart :mem-id="memId" :date="date" :type="type"></BarChart>
+        <LineChart :member_id="member_id" :date="date" :type="type"></LineChart>
       </CardContainer>
       <CardContainer class="chart-card">
-        <LineChart :mem-id="memId" :date="date" :type="type"></LineChart>
+        <ScatterPlot :member_id="member_id" :date="date" :type="type"></ScatterPlot>
       </CardContainer>
       <CardContainer class="chart-card">
-        <ScatterPlot :mem-id="memId" :date="date" :type="type"></ScatterPlot>
+        <AreaChart :member_id="member_id" :date="date" :type="type"></AreaChart>
       </CardContainer>
       <CardContainer class="chart-card">
-        <AreaChart :mem-id="memId" :date="date" :type="type"></AreaChart>
+        <RadarChart :member_id="member_id" :date="date" :type="type"></RadarChart>
       </CardContainer>
       <CardContainer class="chart-card">
-        <RadarChart :mem-id="memId" :date="date" :type="type"></RadarChart>
+        <StackedBar :member_id="member_id" :date="date" :type="type"></StackedBar>
       </CardContainer>
       <CardContainer class="chart-card">
-        <StackedBar :mem-id="memId" :date="date" :type="type"></StackedBar>
-      </CardContainer>
-      <CardContainer class="chart-card">
-        <HeatMap :mem-id="memId" :date="date" :type="type"></HeatMap>
+        <HeatMap :member_id="member_id" :date="date" :type="type"></HeatMap>
       </CardContainer>
       <CardContainer class="chart-card">
         <SankeyDiagram
-          :mem-id="memId"
+          :member_id="member_id"
           :date="date"
           :type="type"
         ></SankeyDiagram>
-      </CardContainer>
+      </CardContainer> -->
     </div>
   </div>
 </template>

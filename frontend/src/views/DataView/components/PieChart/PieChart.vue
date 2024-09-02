@@ -2,12 +2,13 @@
 import * as echarts from 'echarts'
 import { onMounted, watch, ref } from 'vue'
 import { usePieConfig } from '../../composables/usePieConfig'
-// import { useGlobalStore } from '@/stores';
+import { useGlobalStore, useConsumeStore} from '@/stores';
 
-// const globalStore = useGlobalStore()
+const globalStore = useGlobalStore()
+const consumeStore = useConsumeStore()
 
 const props = defineProps({
-  memId: {
+  member_id: {
     type: Number,
     default: 0
   },
@@ -23,11 +24,14 @@ const props = defineProps({
 
 let myChart = null
 // 定义更新图表的函数
-function updateChart() {
+async function updateChart() {
   console.log(props)
   if (!myChart) return
+  if (consumeStore.consumeList.length === 0) await consumeStore.getConsumeData()
+  if (consumeStore.outcomeList.length === 0) await consumeStore.getOutcomeData()
+  if (consumeStore.incomeList.length === 0) await consumeStore.getIncomeData()
   const { optionPost: newOption } = usePieConfig(
-    props.memId,
+    props.member_id,
     props.date,
     props.type
   )
@@ -39,8 +43,8 @@ const optionPost = ref(null)
 onMounted(() => {
   const chartDom = document.getElementById('pie-main')
   if (chartDom) {
-    myChart = echarts.init(chartDom, 'dark')
-    // myChart = echarts.init(chartDom)
+    // myChart = echarts.init(chartDom, 'dark')
+    myChart = echarts.init(chartDom, globalStore.isDark ? 'dark' : 'none')
     updateChart() // 初始化图表
   }
   window.addEventListener('resize', () => {
@@ -49,7 +53,7 @@ onMounted(() => {
 })
 
 // 监听 props 的变化
-watch(() => [props.memId, props.date, props.type], updateChart, {
+watch(() => [props.member_id, props.date, props.type], updateChart, {
   immediate: true
 })
 </script>
