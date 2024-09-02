@@ -41,7 +41,11 @@ const handleReset = () => {
 
 const handleFilter = (info) => {
   console.log(info)
-  member_id.value = info.member_id
+  if (info.member_id) {
+    member_id.value = info.member_id
+  } else {
+    member_id.value = userStore.userInfo.member_id
+  }
   date.value = info.date
   type.value = info.type
 }
@@ -56,13 +60,13 @@ const handleFilter = (info) => {
       <CardContainer class="chart-card">
         <PieChart :member_id="member_id" :date="date" :type="type"></PieChart>
       </CardContainer>
-      <!-- <CardContainer class="chart-card">
-        <BarChart :member_id="member_id" :date="date" :type="type"></BarChart>
+      <CardContainer class="chart-card">
+        <BarChart :date="date" :type="type"></BarChart>
       </CardContainer>
       <CardContainer class="chart-card">
         <LineChart :member_id="member_id" :date="date" :type="type"></LineChart>
       </CardContainer>
-      <CardContainer class="chart-card">
+      <!-- <CardContainer class="chart-card">
         <ScatterPlot :member_id="member_id" :date="date" :type="type"></ScatterPlot>
       </CardContainer>
       <CardContainer class="chart-card">

@@ -29,9 +29,9 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: '管家婆 后端API接口描述文档',
+      title: '后端API接口描述文档',
       version: '1.0.0',
-      description: 'Backend API for 管家婆——家庭收支管理',
+      description: 'Backend API for 家庭收支管理',
     },
   },
   apis: ['./router/*.js'],

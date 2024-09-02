@@ -170,7 +170,7 @@ const confirmDelete = () => {
       0 0 25px 0 rgba(39, 186, 155, 0.5);
   }
   .per-avatar {
-    width: 80%; /* 缩小头像区域宽度 */
+    width: 70%; /* 缩小头像区域宽度 */
     margin: 0 auto; /* 水平居中 */
     position: relative; /* 为子元素提供定位上下文 */
     overflow: hidden; /* 隐藏超出区域的部分 */

@@ -1,12 +1,11 @@
 <script setup>
 import * as echarts from 'echarts'
-import { onMounted, watch, watchEffect, ref } from 'vue'
+import { onMounted, watch, ref } from 'vue'
 import { usePieConfig } from '../../composables/usePieConfig'
-import { useGlobalStore, useMemberStore, useConsumeStore} from '@/stores';
+import { useGlobalStore, useConsumeStore} from '@/stores';
 
 const globalStore = useGlobalStore()
 const consumeStore = useConsumeStore()
-const memberStore = useMemberStore()
 
 const props = defineProps({
   member_id: {
@@ -44,7 +43,6 @@ onMounted(async () => {
   if (consumeStore.incomeList.length === 0) await consumeStore.getIncomeData()
   const chartDom = document.getElementById('pie-main')
   if (chartDom) {
-    // myChart = echarts.init(chartDom, 'dark')
     myChart = echarts.init(chartDom, globalStore.isDark ? 'dark' : 'none')
     updateChart() // 初始化图表
   }
