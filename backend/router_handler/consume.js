@@ -219,7 +219,7 @@ exports.alterConsumeById = (req,res) => {
     };
     db.query(sqlStr, [req.body, req.params.id], (error,results) => {
         if (error)
-            return res.cc(error,500);
+            return res.cc(error, 500);
         return res.send({
             status:200,
             msg:'修改消费记录成功'

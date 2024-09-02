@@ -4,6 +4,11 @@ const jwt = require('jsonwebtoken');
 
 const config = require('../config.js');
 
+/**
+ * Handles user login.
+ * @param {object} req - Express request object, expected to have username and password in body.
+ * @param {object} res - Express response object, returns status, message, and JWT token.
+ */
 exports.login = (req, res) => {
     const userInfo = req.body;
     const sqlStr = 'select * from user where username = ?';
