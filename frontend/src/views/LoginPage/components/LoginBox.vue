@@ -1,16 +1,16 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores'
 import Vcode from 'vue3-puzzle-vcode'
 // import imgs from '../composables/getRandomImgs'
-import { getRandomPic } from '@/api/global'
+// import { getRandomPic } from '@/api/global'
 
-let imgs = []
-onMounted(async () => {
-  const res = await getRandomPic()
-  imgs = res.data
-})
+// let imgs = []
+// onMounted(async () => {
+//   const res = await getRandomPic()
+//   imgs = res.data
+// })
 const userStore = useUserStore()
 const form = ref({
   account: '',
@@ -76,7 +76,7 @@ const proceedToLogin = async () => {
       <h1 class="mb-20">Login</h1>
       <div class="account-box">
         <div class="form">
-          <Vcode :show="isShowLogin" @success="onSuccessLogin" :imgs="imgs" />
+          <Vcode :show="isShowLogin" @success="onSuccessLogin" />
           <el-form
             status-icon
             :model="form"
@@ -105,12 +105,14 @@ const proceedToLogin = async () => {
 <style lang="scss" scoped>
 .login-section {
   margin: -150px 0 0 -150px;
+
   h1 {
     color: #fff;
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     letter-spacing: 1px;
     text-align: center;
   }
+
   :deep(.el-input__wrapper) {
     background-color: transparent;
     padding: 0;
@@ -127,10 +129,12 @@ const proceedToLogin = async () => {
     box-shadow:
       inset 0 -5px 45px rgba(100, 100, 100, 0.2),
       0 1px 1px rgba(255, 255, 255, 0.2);
+
     input::placeholder {
       color: #999;
     }
   }
+
   :deep(.el-button) {
     background-color: rgba(255, 255, 255, 0.3);
     color: #999;

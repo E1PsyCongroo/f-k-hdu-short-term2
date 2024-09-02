@@ -12,7 +12,7 @@ import { useRouter } from 'vue-router'
 import { ref, markRaw } from 'vue'
 import { useGlobalStore, useUserStore } from '@/stores'
 import SwitchButton from '@/components/modules/SwitchButton/SwitchButton.vue'
-import avatarImg from '@/assets/images/qianxun.jpg'
+import avatarImg from '@/assets/images/image011.jpeg'
 
 const globalStore = useGlobalStore()
 const userStore = useUserStore()

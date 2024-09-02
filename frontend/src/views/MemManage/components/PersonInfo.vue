@@ -17,7 +17,7 @@ const dialogVisible = ref(false)
 const form = ref({
   name: '',
   relation: '',
-  sex: '男',
+  sex: '男'
 })
 const rules = {
   name: [
@@ -26,23 +26,29 @@ const rules = {
   ],
   relation: [
     { required: true, message: '请输入与户主的关系', trigger: 'blur' },
-    { validator: (rule, value, callback) => {
-      if (value === '户主') {
-        callback(new Error('关系不能为“户主”'))
-      } else {
-        callback()
-      }
-    }, trigger: 'blur' }
+    {
+      validator: (rule, value, callback) => {
+        if (value === '户主') {
+          callback(new Error('关系不能为“户主”'))
+        } else {
+          callback()
+        }
+      },
+      trigger: 'blur'
+    }
   ],
   sex: [
     { required: true, message: '请选择性别', trigger: 'change' },
-    { validator: (rule, value, callback) => {
-      if (value !== '男' && value !== '女') {
-        callback(new Error('性别只能为“男”或“女”'));
-      } else {
-        callback();
-      }
-    }, trigger: 'change' }
+    {
+      validator: (rule, value, callback) => {
+        if (value !== '男' && value !== '女') {
+          callback(new Error('性别只能为“男”或“女”'))
+        } else {
+          callback()
+        }
+      },
+      trigger: 'change'
+    }
   ]
 }
 const formRef = ref(null)
@@ -69,8 +75,9 @@ const navigateToDataV = () => {
     @click="navigateToDataV"
   >
     <div class="per-content fd-col f-c" v-if="personInfo">
-      <div class="per-avatar bg-red w-90% relative overflow-hidden">
-        <UglyAvatar></UglyAvatar>
+      <div class="per-avatar w-90% relative overflow-hidden">
+        <!-- <UglyAvatar></UglyAvatar> -->
+        <img src="@/assets/images/user.png" width="175" />
       </div>
       <div class="per-info m-t-12 fs-20">
         <div>{{ personInfo.name }}</div>
@@ -96,7 +103,10 @@ const navigateToDataV = () => {
         </el-radio-group>
       </el-form-item>
       <el-form-item label="关系" prop="relation">
-        <el-input v-model="form.relation" placeholder="请输入和户主的关系"></el-input>
+        <el-input
+          v-model="form.relation"
+          placeholder="请输入和户主的关系"
+        ></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="dialogVisible = false">取消</el-button>

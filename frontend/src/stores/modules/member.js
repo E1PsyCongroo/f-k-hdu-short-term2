@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { getMemberAPI, addMemberAPI } from '@/api/member'
-import { useUserStore } from './user' // 引入 user store
+import { useUserStore, useFamilyStore } from '@/stores'
 
 export const useMemberStore = defineStore('member', () => {
   // state
@@ -11,7 +11,9 @@ export const useMemberStore = defineStore('member', () => {
 
   const initMembers = async () => {
     if (userStore.userInfo.token) {
-      const res = await getMemberAPI({ member_id: userStore.userInfo.member_id })
+      const res = await getMemberAPI({
+        member_id: userStore.userInfo.member_id
+      })
       console.log(res)
       if (res.status === 200) {
         members.value = res.data
@@ -24,7 +26,7 @@ export const useMemberStore = defineStore('member', () => {
     if (res.status === 200) {
       await initMembers()
       ElMessage.success('新增用户成功')
-      await familyStore.updateFamilyInfo()
+      await useFamilyStore().updateFamilyInfo()
     }
   }
 
