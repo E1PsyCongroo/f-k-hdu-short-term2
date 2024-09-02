@@ -2,7 +2,7 @@
 import { Plus } from '@element-plus/icons-vue'
 import { useMemberStore, useFamilyStore } from '@/stores'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ElMessageBox, ElMessage } from 'element-plus'
 
 const props = defineProps({
   personInfo: {
@@ -19,6 +19,7 @@ const form = ref({
   relation: '',
   sex: '男'
 })
+
 const rules = {
   name: [
     { required: true, message: '请输入姓名', trigger: 'blur' },
@@ -51,21 +52,54 @@ const rules = {
     }
   ]
 }
+
 const formRef = ref(null)
+
+const handleEditClick = () => {
+  if (props.personInfo) {
+    form.value = {
+      name: props.personInfo.name,
+      relation: props.personInfo.relation,
+      sex: props.personInfo.sex
+    }
+  } else {
+    form.value = { name: '', relation: '', sex: '男' }
+  }
+  dialogVisible.value = true
+}
+
 const dialogConfirm = () => {
   formRef.value.validate(async (valid) => {
     if (valid) {
-      // console.log(form.value)
-      form.value.family_id = familyStore.family.family_id
-      memberStore.addMember(form.value)
+      if (props.personInfo) {
+        await memberStore.updateMember(form.value, props.personInfo.member_id)
+        ElMessage.success('成员信息更新成功')
+      } else {
+        form.value.family_id = familyStore.family.family_id
+        await memberStore.addMember(form.value)
+        ElMessage.success('新成员添加成功')
+      }
       dialogVisible.value = false
     }
   })
 }
-const router = useRouter()
-const navigateToDataV = () => {
-  // TODO
-  // router.push(`/data-view?id=${props.personInfo.member_id}`)
+
+const confirmDelete = () => {
+  ElMessageBox.confirm(
+    '此操作将永久删除该成员, 是否继续?',
+    '删除',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  ).then(async () => {
+    await memberStore.deleteMember(props.personInfo.member_id)
+    ElMessage.success('删除成功')
+    dialogVisible.value = false
+  }).catch(() => {
+    ElMessage.info('已取消删除')
+  })
 }
 </script>
 
@@ -73,12 +107,11 @@ const navigateToDataV = () => {
   <CardContainer
     class="wh-full overflow-hidden cursor-pointer"
     id="per-card"
-    @click="navigateToDataV"
+    @click="handleEditClick"
   >
     <div class="per-content fd-col f-c" v-if="personInfo">
-      <div class="per-avatar w-90% relative overflow-hidden">
-        <!-- <UglyAvatar></UglyAvatar> -->
-        <img src="@/assets/images/user.png" width="175" />
+      <div class="per-avatar">
+        <img src="@/assets/images/user.png"/>
       </div>
       <div class="per-info m-t-12 fs-20">
         <div>{{ personInfo.name }}</div>
@@ -92,7 +125,8 @@ const navigateToDataV = () => {
       </el-icon>
     </div>
   </CardContainer>
-  <el-dialog v-model="dialogVisible" title="添加成员" width="30%">
+
+  <el-dialog v-model="dialogVisible" title="编辑成员信息" width="30%">
     <el-form :model="form" label-width="80px" :rules="rules" ref="formRef">
       <el-form-item label="姓名" prop="name">
         <el-input v-model="form.name" placeholder="请输入姓名"></el-input>
@@ -112,6 +146,7 @@ const navigateToDataV = () => {
       <el-form-item>
         <el-button @click="dialogVisible = false">取消</el-button>
         <el-button type="primary" @click="dialogConfirm">提交</el-button>
+        <el-button v-if="personInfo" type="danger" @click="confirmDelete">删除</el-button>
       </el-form-item>
     </el-form>
   </el-dialog>
@@ -129,19 +164,28 @@ const navigateToDataV = () => {
       0 0 25px 0 rgba(39, 186, 155, 0.5);
   }
   .per-avatar {
-    width: 70%; /* 缩小头像区域宽度 */
-    margin: 0 auto; /* 居中对齐 */
+    width: 80%; /* 缩小头像区域宽度 */
+    margin: 0 auto; /* 水平居中 */
+    position: relative; /* 为子元素提供定位上下文 */
+    overflow: hidden; /* 隐藏超出区域的部分 */
+    border-radius: 50%; /* 如果需要圆形头像 */
+    background-color: #f0f0f0; /* 背景颜色 */
+
     &::before {
       content: '';
       display: block;
-      padding-top: 100%;
+      padding-top: 100%; /* 使容器高度与宽度相同，形成正方形 */
     }
-    & > * {
-      position: absolute;
+
+    & > img {
+      position: absolute; /* 让图片绝对定位以填充父容器 */
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* 使图片按照比例填满容器 */
     }
   }
 }

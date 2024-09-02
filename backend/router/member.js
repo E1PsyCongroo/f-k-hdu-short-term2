@@ -182,5 +182,119 @@ router.get('/members',routerHandler.getMembers);
  */
 router.post('/members',routerHandler.addMember);
 
+/**
+ * @swagger
+ * /members/{member_id}:
+ *   put:
+ *     summary: Update a member's information
+ *     description: Updates the information of an existing member in the database by their member ID.
+ *     tags:
+ *       - Members
+ *     parameters:
+ *       - in: path
+ *         name: member_id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The ID of the member to update.
+ *         example: 1
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - sex
+ *               - relation
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: The name of the member.
+ *                 example: John Doe
+ *               sex:
+ *                 type: string
+ *                 description: The gender of the member.
+ *                 example: Male
+ *               relation:
+ *                 type: string
+ *                 description: The relation of the member to the head of the family.
+ *                 example: Son
+ *     responses:
+ *       200:
+ *         description: Successfully updated the member's information.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
+ *                 msg:
+ *                   type: string
+ *                   example: 修改成员成功
+ *       500:
+ *         description: Error updating the member's information.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 500
+ *                 msg:
+ *                   type: string
+ *                   example: 服务器错误
+ */
+router.put('/members/:member_id', routerHandler.alterMember);
+
+/**
+ * @swagger
+ * /members/{member_id}:
+ *   delete:
+ *     summary: Delete a member by ID
+ *     description: Deletes a member from the database by their member ID.
+ *     tags:
+ *       - Members
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The ID of the member to delete.
+ *         example: 1
+ *     responses:
+ *       200:
+ *         description: Successfully deleted the member.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
+ *                 msg:
+ *                   type: string
+ *                   example: 删除成员成功
+ *       500:
+ *         description: Error deleting the member.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 500
+ *                 msg:
+ *                   type: string
+ *                   example: 服务器错误
+ */
+router.delete('/members/:member_id', routerHandler.deleteMember);
 
 module.exports = router;

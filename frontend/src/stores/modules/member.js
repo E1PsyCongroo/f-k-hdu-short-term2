@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { getMemberAPI, addMemberAPI } from '@/api/member'
+import { getMemberAPI, addMemberAPI, updateMemberAPI, deleteMemberAPI } from '@/api/member'
 import { useUserStore, useFamilyStore } from '@/stores'
 
 export const useMemberStore = defineStore('member', () => {
@@ -30,9 +30,29 @@ export const useMemberStore = defineStore('member', () => {
     }
   }
 
+  const updateMember = async (info, member_id) => {
+    console.log(info, member_id)
+    const res = await updateMemberAPI(info, member_id)
+    if (res.status === 200) {
+      await initMembers()
+      ElMessage.success('更新用户成功')
+    }
+  }
+
+  const deleteMember = async (member_id) => {
+    const res = await deleteMemberAPI(member_id)
+    if (res.status === 200) {
+      await initMembers()
+      ElMessage.success('删除用户成功')
+      await useFamilyStore().updateFamilyInfo()
+    }
+  }
+
   return {
     members,
     initMembers,
-    addMember
+    addMember,
+    updateMember,
+    deleteMember
   }
 })

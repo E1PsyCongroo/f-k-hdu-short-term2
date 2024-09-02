@@ -42,6 +42,34 @@ exports.addMember = (req,res) => {
     db.query(sqlStr, memberData, (error, results) => {
         if (error)
             return res.cc(error, 500);
-        return res.cc('新增用户成功');
+        return res.cc('新增成员成功');
+    })
+}
+
+exports.alterMember = (req, res) => {
+    console.log(req.body, req.params.member_id)
+    const sqlStr = 'update member set ? where member_id = ?';
+    const memberData = {
+        name: req.body.name,
+        sex: req.body.sex,
+        relation: req.body.relation,
+    };
+    db.query(sqlStr, [memberData, req.params.member_id], (error, results) => {
+        if (error)
+            return res.cc(error, 500);
+        return res.send({
+            status:200,
+            msg:'修改成员成功'
+        })
+    })
+}
+
+exports.deleteMember = (req, res) => {
+    console.log(req.params)
+    const sqlStr = 'delete from member where member_id = ?'
+    db.query(sqlStr, [req.params.member_id], (error, results) => {
+        if (error)
+            return res.cc(error, 500);
+        return res.cc('删除成员成功');
     })
 }
