@@ -1,8 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { getMemberAPI, addMemberAPI } from '@/api/member'
-import { useUserStore } from './user' // 引入 user store
-import { useFamilyStore } from './family'
+import { useUserStore, useFamilyStore } from '@/stores'
 
 export const useMemberStore = defineStore('member', () => {
   // state
@@ -27,8 +26,7 @@ export const useMemberStore = defineStore('member', () => {
     if (res.status === 200) {
       await initMembers()
       ElMessage.success('新增用户成功')
-      window.location.reload(true)
-      await useFamilyStore.updateFamilyInfo()
+      await useFamilyStore().updateFamilyInfo()
     }
   }
 
