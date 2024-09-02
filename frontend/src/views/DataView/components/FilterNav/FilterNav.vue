@@ -1,20 +1,21 @@
 <script setup>
-import { useMemberStore } from '@/stores'
+import { useMemberStore, useUserStore } from '@/stores'
 import { ref, onMounted } from 'vue'
 
+const userStore = useUserStore()
 const memberStore = useMemberStore()
 const members = memberStore.members.map((item) => {
   return { value: item.name, label: item.name, id: item.member_id }
 })
 onMounted(() => {})
 
-const member_id = ref('')
+const member_id = ref(userStore.userInfo.member_id)
 const date = ref('')
 const type = ref('all')
 
 const emits = defineEmits(['filter', 'reset'])
 const resetHandle = () => {
-  member_id.value = ''
+  member_id.value = userStore.userInfo.member_id
   date.value = ''
   type.value = 'all'
   emits('reset')
