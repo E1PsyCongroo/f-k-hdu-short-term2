@@ -20,7 +20,7 @@ export const useConsumeStore = defineStore('consume', () => {
   const familyStore = useFamilyStore()
   // 获取消费记录
   const getConsumeData = async () => {
-    const res = await getConsumeAPI({ family_id: familyStore.family.family_id})
+    const res = await getConsumeAPI({ family_id: familyStore.family.family_id })
     console.log(res)
     consumeList.value = res.data
   }
